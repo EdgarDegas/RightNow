@@ -9,7 +9,7 @@
 import Cocoa
 import EventKit
 
-final class DropdownViewController: NSViewController {
+final class DropdownViewController: ViewController {
     
     private let reminderCreator = ReminderCreator()
     
@@ -30,26 +30,19 @@ final class DropdownViewController: NSViewController {
         NSApp.terminate(sender)
     }
     
-    override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
-        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-        customInit()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        customInit()
-    }
-
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.wantsLayer = true
-        view.layer?.backgroundColor = NSColor.windowBackgroundColor.cgColor
         renderViewModel()
     }
     
     override func viewDidAppear() {
         super.viewDidAppear()
         focusOnNextReminderInputView()
+    }
+    
+    override func respondToAppearanceUpdate(into appearanceName: NSAppearance.Name) {
+        view.wantsLayer = true
+        view.layer?.backgroundColor = NSColor.textBackgroundColor.cgColor
     }
 }
 
@@ -72,10 +65,6 @@ private extension DropdownViewController {
     
     func focusOnNextReminderInputView() {
         viewModel.nextReminderInputView.textField?.beginEditing()
-    }
-    
-    func customInit() {
-        // Nothing.
     }
     
     func handleEnterOfNextReminderTextField(_ textField: NSTextField) {

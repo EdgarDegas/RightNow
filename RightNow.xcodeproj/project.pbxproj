@@ -26,6 +26,9 @@
 		B316C7A323D2F01300D06194 /* Set+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A223D2F01300D06194 /* Set+Extension.swift */; };
 		B316C7A523D3393500D06194 /* InstrinsicContentSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */; };
 		B316C7A723D349E000D06194 /* NSTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A623D349E000D06194 /* NSTextField+Extension.swift */; };
+		B316C7A923D35A2D00D06194 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A823D35A2D00D06194 /* ViewController.swift */; };
+		B316C7AB23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7AA23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift */; };
+		B316C7AD23D35B9400D06194 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7AC23D35B9400D06194 /* Typealias.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -72,6 +75,9 @@
 		B316C7A223D2F01300D06194 /* Set+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Set+Extension.swift"; sourceTree = "<group>"; };
 		B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrinsicContentSizeView.swift; sourceTree = "<group>"; };
 		B316C7A623D349E000D06194 /* NSTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextField+Extension.swift"; sourceTree = "<group>"; };
+		B316C7A823D35A2D00D06194 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B316C7AA23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceUpdateSubscriberProtocol.swift; sourceTree = "<group>"; };
+		B316C7AC23D35B9400D06194 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -160,6 +166,9 @@
 				B316C7A223D2F01300D06194 /* Set+Extension.swift */,
 				B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */,
 				B316C7A623D349E000D06194 /* NSTextField+Extension.swift */,
+				B316C7A823D35A2D00D06194 /* ViewController.swift */,
+				B316C7AA23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift */,
+				B316C7AC23D35B9400D06194 /* Typealias.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -327,6 +336,7 @@
 			files = (
 				B316C78E23D082B100D06194 /* ViewModel.swift in Sources */,
 				B316C75F23D0346400D06194 /* DropdownViewController.swift in Sources */,
+				B316C7AB23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift in Sources */,
 				B316C7A323D2F01300D06194 /* Set+Extension.swift in Sources */,
 				B316C7A123D2EEE100D06194 /* ReminderCreator.swift in Sources */,
 				B316C75D23D0346400D06194 /* AppDelegate.swift in Sources */,
@@ -334,11 +344,13 @@
 				B316C78C23D06B0900D06194 /* ReminderInputView.swift in Sources */,
 				B316C7A523D3393500D06194 /* InstrinsicContentSizeView.swift in Sources */,
 				B316C78A23D068B800D06194 /* Date+Extension.swift in Sources */,
+				B316C7AD23D35B9400D06194 /* Typealias.swift in Sources */,
 				B316C79823D205B200D06194 /* NSView+Extension.swift in Sources */,
 				B316C79223D0914000D06194 /* StackView.swift in Sources */,
 				B316C79423D0AC4A00D06194 /* NSApplication+Extension.swift in Sources */,
 				B316C7A723D349E000D06194 /* NSTextField+Extension.swift in Sources */,
 				B316C79C23D21A4E00D06194 /* WeakReference.swift in Sources */,
+				B316C7A923D35A2D00D06194 /* ViewController.swift in Sources */,
 				B316C79623D2055200D06194 /* AutoExpandingTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -513,7 +525,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imoe.RightNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -534,7 +546,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imoe.RightNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;

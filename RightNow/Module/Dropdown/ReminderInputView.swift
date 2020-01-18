@@ -41,6 +41,14 @@ final class ReminderInputView: NSView {
         }
     }
     
+    override func updateLayer() {
+        super.updateLayer()
+        separator.layer?.backgroundColor = NSColor.separatorColor.cgColor
+        textField.backgroundColor = NSColor.textBackgroundColor
+        label.textColor = NSColor.secondaryLabelColor
+        indicator.appearance = NSAppearance.current
+    }
+    
     weak var delegate: ReminderInputViewDelegate?
     
     override var intrinsicContentSize: NSSize {
@@ -51,6 +59,7 @@ final class ReminderInputView: NSView {
     weak var label: NSTextField!
     weak var contentStackView: StackView!
     weak var indicator: NSProgressIndicator!
+    weak var separator: NSView!
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -77,13 +86,14 @@ private extension ReminderInputView {
         let label = createLabel()
         self.label = label
         
-        let borderView = createBorderView()
+        let separator = createSeparator()
+        self.separator = separator
         
         let contentStackView = createContentStackView()
         addSubview(contentStackView, insets: .init())
         contentStackView.addArrangedSubview(label)
         contentStackView.addArrangedSubview(textField)
-        contentStackView.addArrangedSubview(borderView)
+        contentStackView.addArrangedSubview(separator)
         contentStackView.setCustomSpacing(12, after: label)
         self.contentStackView = contentStackView
         
@@ -92,7 +102,7 @@ private extension ReminderInputView {
         self.indicator = indicator
         
         let trailingConstraint = NSLayoutConstraint(
-            item: borderView,
+            item: separator,
             attribute: .trailing,
             relatedBy: .equal,
             toItem: indicator,
@@ -114,7 +124,6 @@ private extension ReminderInputView {
     
     func createTextField() -> AutoExpandingTextField {
         let textField = AutoExpandingTextField()
-        textField.backgroundColor = NSColor.windowBackgroundColor
         textField.cell?.sendsActionOnEndEditing = false
         textField.target = self
         textField.action = #selector(textFieldDidEnter(_:))
@@ -133,31 +142,27 @@ private extension ReminderInputView {
     func createLabel() -> NSTextField {
         let label = NSTextField(labelWithString: "")
         label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = NSColor.labelColor
         return label
     }
     
-    func createBorderView() -> InstrinsicContentSizeView {
-        let borderView = InstrinsicContentSizeView()
-        borderView.wantsLayer = true
-        let borderColor = NSColor.separatorColor
-        borderView.layer?.backgroundColor = borderColor.cgColor
-        borderView.translatesAutoresizingMaskIntoConstraints = false
-        borderView.addConstraint(.init(
-            item: borderView,
+    func createSeparator() -> InstrinsicContentSizeView {
+        let separator = InstrinsicContentSizeView()
+        separator.wantsLayer = true
+        separator.translatesAutoresizingMaskIntoConstraints = false
+        separator.addConstraint(.init(
+            item: separator,
             attribute: .height,
             relatedBy: .equal,
             toItem: nil,
             attribute: .notAnAttribute,
             multiplier: 1,
             constant: 1))
-        return borderView
+        return separator
     }
     
     func createIndicator() -> NSProgressIndicator {
         let indicator = NSProgressIndicator()
         indicator.layer?.backgroundColor = NSColor.clear.cgColor
-        indicator.appearance = NSAppearance.current
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.isIndeterminate = true
         indicator.isDisplayedWhenStopped = false

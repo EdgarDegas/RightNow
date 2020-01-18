@@ -7,9 +7,19 @@
 //
 
 import Cocoa
+import Combine
+
+var NSAppDelegate: AppDelegate {
+    NSApp.delegate as! AppDelegate
+}
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+    var appearanceUpdateSubscription: Subscription?
+    
+    let appearanceUpdatePublisher = CurrentValueSubject<NSAppearance.Name, Error>(NSAppearance.current.name)
+    
+    private var observationToken: NSKeyValueObservation!
     
     @IBAction func navigateToLastReminderSelected(_ sender: NSMenuItem) {
         dropdownViewController.viewModel.lastReminderInputView.textField.beginEditing()
@@ -26,17 +36,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     weak var dropdownViewController: DropdownViewController!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
+        observationToken = NSApp.observe(\.effectiveAppearance) { [unowned self] _, _ in
+            NSAppearance.current = NSApp.effectiveAppearance
+            self.appearanceUpdatePublisher.send(NSAppearance.current.name)
+        }
+        
+        subscribeToAppearanceUpdate()
         popover.behavior = .transient
-        popover.appearance = NSAppearance.current
         
         let button = statusItem.button
         button?.action = #selector(togglePopover(_:))
         button?.title = "Right Now"
         
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
-        //2.
         let identifier = "View Controller"
-        //3.
         guard let dropdownViewController = storyboard.instantiateController(withIdentifier: identifier) as? DropdownViewController else {
             fatalError("Storyboard ID not set.")
         }
@@ -68,3 +81,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 }
 
+extension AppDelegate: AppearanceUpdateSubscriberProtocol {
+    func respondToAppearanceUpdate(into appearanceName: NSAppearance.Name) {
+        popover.appearance = NSAppearance.current
+    }
+}
