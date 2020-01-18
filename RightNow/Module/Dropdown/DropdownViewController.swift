@@ -15,7 +15,20 @@ final class DropdownViewController: NSViewController {
     
     private var accessRequested: Bool = false
     
+    @IBOutlet var settingMenu: NSMenu!
+    
     @IBOutlet weak var contentStackView: StackView!
+    
+    @IBAction func settingButtonTapped(_ sender: NSButton) {
+        var anchor = sender.bounds.origin
+        anchor.x += 20
+        anchor.y += sender.bounds.height - 8
+        settingMenu.popUp(positioning: nil, at: anchor, in: sender)
+    }
+    
+    @IBAction func quitItemSelected(_ sender: NSMenuItem) {
+        NSApp.terminate(sender)
+    }
     
     override init(nibName nibNameOrNil: NSNib.Name?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -41,7 +54,7 @@ final class DropdownViewController: NSViewController {
 
 private extension DropdownViewController {
     func updatePopoverContentSize() {
-        preferredContentSize = view.bounds.size
+        NSApp.popover.contentSize = view.bounds.size
     }
     
     func renderViewModel() {
@@ -50,16 +63,14 @@ private extension DropdownViewController {
     }
     
     func creatingEvent(named name: String, completion: (() -> Void)? = nil) {
-        defer {
-            completion?()
-        }
         guard name.isEmpty == false else { return }
         let creation: (String) -> Void = { [weak self] text in
             guard let self = self else { return }
             self.performCreationOfEvent(named: text) {
-                self.viewModel.lastReminder = .init(title: text)
-                self.viewModel.currentReminder = .init(title: "")
+                self.viewModel.lastReminder = ViewModel.createLastReminder()
+                self.viewModel.currentReminder = ViewModel.createCurrentReminder()
                 self.renderViewModel()
+                completion?()
             }
         }
         
@@ -67,7 +78,6 @@ private extension DropdownViewController {
             eventStore.requestAccess(to: .reminder) { [weak self] succeeded, error in
                 guard let self = self else { return }
                 self.accessRequested = true
-                print("wts")
                 DispatchQueue.main.async {
                     creation(name)
                 }

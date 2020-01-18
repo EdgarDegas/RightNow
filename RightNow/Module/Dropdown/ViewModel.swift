@@ -16,11 +16,12 @@ extension DropdownViewController {
         }
         
         struct Reminder {
+            var indication: String
             var title: String
         }
         
         var lastReminder: Reminder?
-        var currentReminder: Reminder = .init(title: "")
+        var currentReminder: Reminder = createCurrentReminder()
         
         var lastReminderCell = ReminderInputView()
         var currentReminderCell = ReminderInputView()
@@ -42,8 +43,10 @@ extension DropdownViewController {
             let rowType = getRowType(at: row)
             switch rowType {
             case .last:
+                lastReminderCell.viewModel = .init(reminder: lastReminder!)
                 return lastReminderCell
             case .current:
+                currentReminderCell.viewModel = .init(reminder: currentReminder)
                 return currentReminderCell
             }
         }
@@ -52,9 +55,29 @@ extension DropdownViewController {
             currentReminderCell.translatesAutoresizingMaskIntoConstraints = false
             lastReminderCell.translatesAutoresizingMaskIntoConstraints = false
             if let lastReminder = lastReminder {
-                lastReminderCell.textField?.stringValue = lastReminder.title
+                lastReminderCell.viewModel = .init(reminder: lastReminder)
             }
-            currentReminderCell.textField?.stringValue = currentReminder.title
+            currentReminderCell.viewModel = .init(reminder: currentReminder)
         }
+    }
+}
+
+
+extension DropdownViewController.ViewModel {
+    static func createCurrentReminder() -> Reminder {
+        .init(indication: "What to do next: ", title: "")
+    }
+    
+    static func createLastReminder() -> Reminder {
+        .init(indication: "⌘⇧↑ to edit", title: "")
+    }
+}
+
+
+private extension ReminderInputView.ViewModel {
+    init(reminder: DropdownViewController.ViewModel.Reminder) {
+        labelText = reminder.indication
+        textFieldPlaceholder = "Brief description of the reminder..."
+        textFieldText = reminder.title
     }
 }

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="15702" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
+        <deployment identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="15702"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -684,8 +685,8 @@
         <scene sceneID="egY-Ww-NgW">
             <objects>
                 <viewController storyboardIdentifier="View Controller" id="HCS-vY-cJ6" customClass="DropdownViewController" customModule="RightNow" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" focusRingType="none" id="pzY-5K-2DL">
-                        <rect key="frame" x="0.0" y="0.0" width="400" height="32"/>
+                    <view key="view" focusRingType="none" misplaced="YES" id="pzY-5K-2DL">
+                        <rect key="frame" x="0.0" y="0.0" width="400" height="60"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxi-Ku-SrK" customClass="StackView" customModule="RightNow" customModuleProvider="target">
@@ -697,21 +698,52 @@
                                     <outlet property="dataSource" destination="HCS-vY-cJ6" id="wnc-ju-kVi"/>
                                 </connections>
                             </stackView>
+                            <button focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="5HO-8d-4e4">
+                                <rect key="frame" x="344" y="16" width="56" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="56" id="8l0-Pl-wOw"/>
+                                    <constraint firstAttribute="height" constant="44" id="SwH-et-8bU"/>
+                                </constraints>
+                                <buttonCell key="cell" type="inline" bezelStyle="inline" image="NSActionTemplate" imagePosition="only" alignment="center" focusRingType="none" inset="2" id="rLA-12-9Qb">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="smallSystemBold"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="settingButtonTapped:" target="HCS-vY-cJ6" id="n0f-9Q-2lY"/>
+                                    <outlet property="menu" destination="U8m-T2-q6X" id="jM2-VW-tkI"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="Oxi-Ku-SrK" secondAttribute="trailing" constant="20" id="9Rn-eU-oXC"/>
                             <constraint firstItem="Oxi-Ku-SrK" firstAttribute="leading" secondItem="pzY-5K-2DL" secondAttribute="leading" constant="20" id="K5x-NP-xzg"/>
-                            <constraint firstItem="Oxi-Ku-SrK" firstAttribute="top" secondItem="pzY-5K-2DL" secondAttribute="top" constant="16" id="cmE-g2-KKf"/>
+                            <constraint firstAttribute="trailing" secondItem="5HO-8d-4e4" secondAttribute="trailing" id="Lje-6N-xb0"/>
+                            <constraint firstItem="5HO-8d-4e4" firstAttribute="top" secondItem="pzY-5K-2DL" secondAttribute="top" id="SmG-2M-B1A"/>
                             <constraint firstAttribute="bottom" secondItem="Oxi-Ku-SrK" secondAttribute="bottom" constant="16" id="iUf-Y5-4o8"/>
+                            <constraint firstItem="Oxi-Ku-SrK" firstAttribute="top" secondItem="5HO-8d-4e4" secondAttribute="bottom" id="ijn-DK-gUk"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="contentStackView" destination="Oxi-Ku-SrK" id="KF2-0b-61Q"/>
+                        <outlet property="settingMenu" destination="U8m-T2-q6X" id="Gdv-Pi-faa"/>
                     </connections>
                 </viewController>
                 <customObject id="lsp-YO-PRO" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+                <menu id="U8m-T2-q6X">
+                    <items>
+                        <menuItem title="Quit" id="Oy6-2m-0zF">
+                            <modifierMask key="keyEquivalentModifierMask"/>
+                            <connections>
+                                <action selector="quitItemSelected:" target="HCS-vY-cJ6" id="uwo-qx-Le9"/>
+                            </connections>
+                        </menuItem>
+                    </items>
+                </menu>
             </objects>
-            <point key="canvasLocation" x="57" y="264"/>
+            <point key="canvasLocation" x="57" y="306"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="NSActionTemplate" width="14" height="14"/>
+    </resources>
 </document>

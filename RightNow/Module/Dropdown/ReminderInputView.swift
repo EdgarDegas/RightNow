@@ -23,17 +23,23 @@ protocol ReminderInputViewDelegate: AnyObject {
 extension ReminderInputViewDelegate {
     func reminderInputView(
         _ reminderInputView: ReminderInputView,
-        textFieldDidEnter textField: NSTextField
+        textFieldDidEnter textField: AutoExpandingTextField
     ) { }
     
     func reminderInputView(
         _ reminderInputView: ReminderInputView,
-        textFieldTextDidChange textField: NSTextField
+        textFieldTextDidChange textField: AutoExpandingTextField
     ) { }
 }
 
 
 final class ReminderInputView: NSView {
+    
+    var viewModel = ViewModel() {
+        didSet {
+            renderViewModel()
+        }
+    }
     
     weak var delegate: ReminderInputViewDelegate?
     
@@ -55,8 +61,9 @@ final class ReminderInputView: NSView {
     }
 }
 
+
 private extension ReminderInputView {
-    @objc func textFieldDidEnter(_ sender: NSTextField) {
+    @objc func textFieldDidEnter(_ sender: AutoExpandingTextField) {
         delegate?.reminderInputView(self, textFieldDidEnter: sender)
     }
     
@@ -98,7 +105,7 @@ private extension ReminderInputView {
     }
     
     func createLabel() -> NSTextField {
-        let label = NSTextField(labelWithString: "What to do next:")
+        let label = NSTextField(labelWithString: "")
         label.font = .systemFont(ofSize: 12, weight: .medium)
         label.textColor = #colorLiteral(red: 0.525490284, green: 0.5568627715, blue: 0.5882352591, alpha: 1)
         return label
@@ -128,12 +135,38 @@ private extension ReminderInputView {
         contentStackView.spacing = 4
         return contentStackView
     }
+    
+    func renderViewModel() {
+        if textField.stringValue != viewModel.textFieldText {
+            textField.stringValue = viewModel.textFieldText
+        }
+        
+        if label.stringValue != viewModel.labelText {
+            label.stringValue = viewModel.labelText
+        }
+        
+        if textField.placeholderString != viewModel.textFieldPlaceholder {
+            textField.placeholderString = viewModel.textFieldPlaceholder
+        }
+    }
 }
+
+
+extension ReminderInputView {
+    struct ViewModel {
+        var labelText: String = ""
+        var textFieldText: String = ""
+        var textFieldPlaceholder: String = ""
+        var showIndicator: Bool = false
+    }
+}
+
 
 extension ReminderInputView: NSTextFieldDelegate {
     func controlTextDidChange(_ obj: Notification) {
         let textField = obj.object as! AutoExpandingTextField
         textField.invalidateIntrinsicContentSize()
+        viewModel.textFieldText = textField.stringValue
         delegate?.reminderInputView(
             self,
             textFieldTextDidChange: textField)

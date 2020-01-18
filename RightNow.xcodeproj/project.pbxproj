@@ -158,7 +158,6 @@
 			children = (
 				B316C75C23D0346400D06194 /* AppDelegate.swift */,
 				B316C76023D0346600D06194 /* Assets.xcassets */,
-				B316C76223D0346600D06194 /* Main.storyboard */,
 				B316C76523D0346600D06194 /* Info.plist */,
 				B316C76623D0346600D06194 /* RightNow.entitlements */,
 			);
@@ -179,6 +178,7 @@
 				B316C75E23D0346400D06194 /* DropdownViewController.swift */,
 				B316C78D23D082B100D06194 /* ViewModel.swift */,
 				B316C78B23D06B0900D06194 /* ReminderInputView.swift */,
+				B316C76223D0346600D06194 /* Main.storyboard */,
 			);
 			path = Dropdown;
 			sourceTree = "<group>";
