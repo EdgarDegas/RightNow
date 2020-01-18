@@ -80,12 +80,24 @@ extension DropdownViewController: ReminderInputViewDelegate {
         _ reminderInputView: ReminderInputView,
         textFieldDidEnter textField: AutoExpandingTextField
     ) {
+        let reminderName = textField.stringValue
         textField.isEnabled = false
         reminderCreator.createReminder(
-            named: textField.stringValue
-        ) { [unowned self, weak textField] in
-            textField?.isEnabled = true
-            self.viewModel.lastReminder = ViewModel.createLastReminder()
+            named: reminderName
+        ) { [unowned self, weak textField] result in
+            defer {
+                textField?.isEnabled = true
+            }
+
+            guard let reminder = try? result.get() else {
+                // TODO: Handle creation failure
+                return
+            }
+            
+            var lastReminder = ViewModel.createLastReminder()
+            lastReminder.title = reminderName
+            lastReminder.ekReminder = reminder
+            self.viewModel.lastReminder = lastReminder
             self.viewModel.currentReminder = ViewModel.createCurrentReminder()
             self.renderViewModel()
         }

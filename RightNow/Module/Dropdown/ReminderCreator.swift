@@ -14,6 +14,13 @@ final class ReminderCreator {
     
     private let eventStore = EKEventStore()
     
+    enum Error: Swift.Error {
+        case underlying(error: Swift.Error)
+    }
+    
+    typealias ReminderCreationResult = Result<EKReminder, Error>
+    typealias ReminderCreationCompletion = ((ReminderCreationResult) -> Void)
+    
     init() {
         let status = EKEventStore.authorizationStatus(for: .reminder)
         switch status {
@@ -24,12 +31,15 @@ final class ReminderCreator {
         }
     }
     
-    func createReminder(named name: String, completion: (() -> Void)? = nil) {
+    /// Create a reminder with the given name.
+    /// 
+    /// The completion is guaranteed to be invoked on the main queue.
+    func createReminder(named name: String, completion: ReminderCreationCompletion? = nil) {
         guard name.isEmpty == false else { return }
         let creation: (String) -> Void = { [weak self] text in
             guard let self = self else { return }
-            self.performCreationOfReminder(named: text) {
-                completion?()
+            self.performCreationOfReminder(named: text) { result in
+                completion?(result)
             }
         }
         
@@ -50,16 +60,25 @@ final class ReminderCreator {
 
 
 private extension ReminderCreator {
-    func performCreationOfReminder(named name: String, completion: (() -> Void)? = nil) {
+    func performCreationOfReminder(
+        named name: String,
+        completion: @escaping ReminderCreationCompletion
+    ) {
         DispatchQueue.global(qos: .userInitiated).async {
             let reminder = EKReminder(eventStore: self.eventStore)
             reminder.title = name
             let calendar = self.eventStore.defaultCalendarForNewReminders()
             reminder.calendar = calendar
             reminder.dueDateComponents = Calendar.current.dateComponents(.yearToDay, from: .init())
-            try? self.eventStore.save(reminder, commit: true)
-            DispatchQueue.main.async {
-                completion?()
+            do {
+                try self.eventStore.save(reminder, commit: true)
+                DispatchQueue.main.async {
+                    completion(.success(reminder))
+                }
+            } catch {
+                DispatchQueue.main.async {
+                    completion(.failure(.underlying(error: error)))
+                }
             }
         }
     }

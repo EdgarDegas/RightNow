@@ -7,6 +7,7 @@
 //
 
 import Cocoa
+import EventKit
 
 extension DropdownViewController {
     struct ViewModel {
@@ -18,6 +19,7 @@ extension DropdownViewController {
         struct Reminder {
             var indication: String
             var title: String
+            var ekReminder: EKReminder?
         }
         
         var lastReminder: Reminder?
