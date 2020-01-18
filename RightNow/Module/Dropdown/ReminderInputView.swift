@@ -114,6 +114,7 @@ private extension ReminderInputView {
     
     func createTextField() -> AutoExpandingTextField {
         let textField = AutoExpandingTextField()
+        textField.backgroundColor = NSColor.windowBackgroundColor
         textField.cell?.sendsActionOnEndEditing = false
         textField.target = self
         textField.action = #selector(textFieldDidEnter(_:))
@@ -132,14 +133,14 @@ private extension ReminderInputView {
     func createLabel() -> NSTextField {
         let label = NSTextField(labelWithString: "")
         label.font = .systemFont(ofSize: 12, weight: .medium)
-        label.textColor = #colorLiteral(red: 0.525490284, green: 0.5568627715, blue: 0.5882352591, alpha: 1)
+        label.textColor = NSColor.labelColor
         return label
     }
     
     func createBorderView() -> InstrinsicContentSizeView {
         let borderView = InstrinsicContentSizeView()
         borderView.wantsLayer = true
-        let borderColor = #colorLiteral(red: 0.9450982213, green: 0.9529412389, blue: 0.9607843757, alpha: 1)
+        let borderColor = NSColor.separatorColor
         borderView.layer?.backgroundColor = borderColor.cgColor
         borderView.translatesAutoresizingMaskIntoConstraints = false
         borderView.addConstraint(.init(
