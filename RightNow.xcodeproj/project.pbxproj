@@ -8,11 +8,20 @@
 
 /* Begin PBXBuildFile section */
 		B316C75D23D0346400D06194 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C75C23D0346400D06194 /* AppDelegate.swift */; };
-		B316C75F23D0346400D06194 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C75E23D0346400D06194 /* ViewController.swift */; };
+		B316C75F23D0346400D06194 /* DropdownViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C75E23D0346400D06194 /* DropdownViewController.swift */; };
 		B316C76123D0346600D06194 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B316C76023D0346600D06194 /* Assets.xcassets */; };
 		B316C76423D0346600D06194 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B316C76223D0346600D06194 /* Main.storyboard */; };
 		B316C77023D0346700D06194 /* RightNowTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C76F23D0346700D06194 /* RightNowTests.swift */; };
 		B316C77B23D0346700D06194 /* RightNowUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C77A23D0346700D06194 /* RightNowUITests.swift */; };
+		B316C78A23D068B800D06194 /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C78923D068B800D06194 /* Date+Extension.swift */; };
+		B316C78C23D06B0900D06194 /* ReminderInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C78B23D06B0900D06194 /* ReminderInputView.swift */; };
+		B316C78E23D082B100D06194 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C78D23D082B100D06194 /* ViewModel.swift */; };
+		B316C79223D0914000D06194 /* StackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79123D0914000D06194 /* StackView.swift */; };
+		B316C79423D0AC4A00D06194 /* NSApplication+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79323D0AC4A00D06194 /* NSApplication+Extension.swift */; };
+		B316C79623D2055200D06194 /* AutoExpandingTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79523D2055200D06194 /* AutoExpandingTextField.swift */; };
+		B316C79823D205B200D06194 /* NSView+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79723D205B200D06194 /* NSView+Extension.swift */; };
+		B316C79A23D205D100D06194 /* NSFont+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79923D205D100D06194 /* NSFont+Extension.swift */; };
+		B316C79C23D21A4E00D06194 /* WeakReference.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C79B23D21A4D00D06194 /* WeakReference.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -35,7 +44,7 @@
 /* Begin PBXFileReference section */
 		B316C75923D0346400D06194 /* RightNow.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RightNow.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B316C75C23D0346400D06194 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		B316C75E23D0346400D06194 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		B316C75E23D0346400D06194 /* DropdownViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownViewController.swift; sourceTree = "<group>"; };
 		B316C76023D0346600D06194 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B316C76323D0346600D06194 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		B316C76523D0346600D06194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -46,6 +55,15 @@
 		B316C77623D0346700D06194 /* RightNowUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RightNowUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		B316C77A23D0346700D06194 /* RightNowUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RightNowUITests.swift; sourceTree = "<group>"; };
 		B316C77C23D0346700D06194 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B316C78923D068B800D06194 /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
+		B316C78B23D06B0900D06194 /* ReminderInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderInputView.swift; sourceTree = "<group>"; };
+		B316C78D23D082B100D06194 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		B316C79123D0914000D06194 /* StackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackView.swift; sourceTree = "<group>"; };
+		B316C79323D0AC4A00D06194 /* NSApplication+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Extension.swift"; sourceTree = "<group>"; };
+		B316C79523D2055200D06194 /* AutoExpandingTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AutoExpandingTextField.swift; sourceTree = "<group>"; };
+		B316C79723D205B200D06194 /* NSView+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSView+Extension.swift"; sourceTree = "<group>"; };
+		B316C79923D205D100D06194 /* NSFont+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSFont+Extension.swift"; sourceTree = "<group>"; };
+		B316C79B23D21A4D00D06194 /* WeakReference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReference.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,12 +114,9 @@
 		B316C75B23D0346400D06194 /* RightNow */ = {
 			isa = PBXGroup;
 			children = (
-				B316C75C23D0346400D06194 /* AppDelegate.swift */,
-				B316C75E23D0346400D06194 /* ViewController.swift */,
-				B316C76023D0346600D06194 /* Assets.xcassets */,
-				B316C76223D0346600D06194 /* Main.storyboard */,
-				B316C76523D0346600D06194 /* Info.plist */,
-				B316C76623D0346600D06194 /* RightNow.entitlements */,
+				B316C79E23D2D6AE00D06194 /* Module */,
+				B316C78823D068AB00D06194 /* Foundation */,
+				B316C79D23D2D5EB00D06194 /* Supporting */,
 			);
 			path = RightNow;
 			sourceTree = "<group>";
@@ -122,6 +137,50 @@
 				B316C77C23D0346700D06194 /* Info.plist */,
 			);
 			path = RightNowUITests;
+			sourceTree = "<group>";
+		};
+		B316C78823D068AB00D06194 /* Foundation */ = {
+			isa = PBXGroup;
+			children = (
+				B316C78923D068B800D06194 /* Date+Extension.swift */,
+				B316C79123D0914000D06194 /* StackView.swift */,
+				B316C79323D0AC4A00D06194 /* NSApplication+Extension.swift */,
+				B316C79523D2055200D06194 /* AutoExpandingTextField.swift */,
+				B316C79723D205B200D06194 /* NSView+Extension.swift */,
+				B316C79923D205D100D06194 /* NSFont+Extension.swift */,
+				B316C79B23D21A4D00D06194 /* WeakReference.swift */,
+			);
+			path = Foundation;
+			sourceTree = "<group>";
+		};
+		B316C79D23D2D5EB00D06194 /* Supporting */ = {
+			isa = PBXGroup;
+			children = (
+				B316C75C23D0346400D06194 /* AppDelegate.swift */,
+				B316C76023D0346600D06194 /* Assets.xcassets */,
+				B316C76223D0346600D06194 /* Main.storyboard */,
+				B316C76523D0346600D06194 /* Info.plist */,
+				B316C76623D0346600D06194 /* RightNow.entitlements */,
+			);
+			path = Supporting;
+			sourceTree = "<group>";
+		};
+		B316C79E23D2D6AE00D06194 /* Module */ = {
+			isa = PBXGroup;
+			children = (
+				B316C79F23D2D6B500D06194 /* Dropdown */,
+			);
+			path = Module;
+			sourceTree = "<group>";
+		};
+		B316C79F23D2D6B500D06194 /* Dropdown */ = {
+			isa = PBXGroup;
+			children = (
+				B316C75E23D0346400D06194 /* DropdownViewController.swift */,
+				B316C78D23D082B100D06194 /* ViewModel.swift */,
+				B316C78B23D06B0900D06194 /* ReminderInputView.swift */,
+			);
+			path = Dropdown;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -254,8 +313,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B316C75F23D0346400D06194 /* ViewController.swift in Sources */,
+				B316C78E23D082B100D06194 /* ViewModel.swift in Sources */,
+				B316C75F23D0346400D06194 /* DropdownViewController.swift in Sources */,
 				B316C75D23D0346400D06194 /* AppDelegate.swift in Sources */,
+				B316C79A23D205D100D06194 /* NSFont+Extension.swift in Sources */,
+				B316C78C23D06B0900D06194 /* ReminderInputView.swift in Sources */,
+				B316C78A23D068B800D06194 /* Date+Extension.swift in Sources */,
+				B316C79823D205B200D06194 /* NSView+Extension.swift in Sources */,
+				B316C79223D0914000D06194 /* StackView.swift in Sources */,
+				B316C79423D0AC4A00D06194 /* NSApplication+Extension.swift in Sources */,
+				B316C79C23D21A4E00D06194 /* WeakReference.swift in Sources */,
+				B316C79623D2055200D06194 /* AutoExpandingTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,16 +487,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RightNow/RightNow.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RightNow/Supporting/RightNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = GVYB79VSRG;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = RightNow/Info.plist;
+				INFOPLIST_FILE = RightNow/Supporting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imoe.RightNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -439,16 +508,17 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_ENTITLEMENTS = RightNow/RightNow.entitlements;
+				CODE_SIGN_ENTITLEMENTS = RightNow/Supporting/RightNow.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = GVYB79VSRG;
 				ENABLE_HARDENED_RUNTIME = YES;
-				INFOPLIST_FILE = RightNow/Info.plist;
+				INFOPLIST_FILE = RightNow/Supporting/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
+				MACOSX_DEPLOYMENT_TARGET = 10.12;
 				PRODUCT_BUNDLE_IDENTIFIER = com.imoe.RightNow;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
