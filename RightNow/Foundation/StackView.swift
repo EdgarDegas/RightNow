@@ -63,6 +63,7 @@ class StackView: NSStackView {
             let toInsert = dataSource!.arrangedSubview(at: index, in: self)
             addArrangedSubview(toInsert)
         }
+        invalidateIntrinsicContentSize()
     }
     
     var instrinsicLengthAgaintOrientation: CGFloat {

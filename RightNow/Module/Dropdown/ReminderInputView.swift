@@ -50,6 +50,7 @@ final class ReminderInputView: NSView {
     weak var textField: AutoExpandingTextField!
     weak var label: NSTextField!
     weak var contentStackView: StackView!
+    weak var indicator: NSProgressIndicator!
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -85,6 +86,30 @@ private extension ReminderInputView {
         contentStackView.addArrangedSubview(borderView)
         contentStackView.setCustomSpacing(12, after: label)
         self.contentStackView = contentStackView
+        
+        let indicator = createIndicator()
+        addSubview(indicator)
+        self.indicator = indicator
+        
+        let trailingConstraint = NSLayoutConstraint(
+            item: borderView,
+            attribute: .trailing,
+            relatedBy: .equal,
+            toItem: indicator,
+            attribute: .trailing,
+            multiplier: 1,
+            constant: 0)
+        let baselineConstraint = NSLayoutConstraint(
+            item: textField,
+            attribute: .lastBaseline,
+            relatedBy: .equal,
+            toItem: indicator,
+            attribute: .lastBaseline,
+            multiplier: 1,
+            constant: 0)
+        addConstraints([
+            trailingConstraint,
+            baselineConstraint])
     }
     
     func createTextField() -> AutoExpandingTextField {
@@ -111,8 +136,8 @@ private extension ReminderInputView {
         return label
     }
     
-    func createBorderView() -> NSView {
-        let borderView = NSView()
+    func createBorderView() -> InstrinsicContentSizeView {
+        let borderView = InstrinsicContentSizeView()
         borderView.wantsLayer = true
         let borderColor = #colorLiteral(red: 0.9450982213, green: 0.9529412389, blue: 0.9607843757, alpha: 1)
         borderView.layer?.backgroundColor = borderColor.cgColor
@@ -126,6 +151,36 @@ private extension ReminderInputView {
             multiplier: 1,
             constant: 1))
         return borderView
+    }
+    
+    func createIndicator() -> NSProgressIndicator {
+        let indicator = NSProgressIndicator()
+        indicator.layer?.backgroundColor = NSColor.clear.cgColor
+        indicator.appearance = NSAppearance.current
+        indicator.translatesAutoresizingMaskIntoConstraints = false
+        indicator.isIndeterminate = true
+        indicator.isDisplayedWhenStopped = false
+        indicator.style = .spinning
+        
+        let heightConstraint = NSLayoutConstraint(
+            item: indicator,
+            attribute: .height,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1,
+            constant: 16)
+        let widthConstraint = NSLayoutConstraint(
+            item: indicator,
+            attribute: .width,
+            relatedBy: .equal,
+            toItem: nil,
+            attribute: .notAnAttribute,
+            multiplier: 1,
+            constant: 16)
+        
+        indicator.addConstraints([heightConstraint, widthConstraint])
+        return indicator
     }
     
     func createContentStackView() -> StackView {
@@ -147,6 +202,13 @@ private extension ReminderInputView {
         
         if textField.placeholderString != viewModel.textFieldPlaceholder {
             textField.placeholderString = viewModel.textFieldPlaceholder
+        }
+        
+        textField.isEnabled = !viewModel.showIndicator
+        if viewModel.showIndicator {
+            indicator.startAnimation(nil)
+        } else {
+            indicator.stopAnimation(nil)
         }
     }
 }

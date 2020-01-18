@@ -7,7 +7,6 @@
 //
 
 import Cocoa
-import EventKit
 
 extension DropdownViewController {
     struct ViewModel {
@@ -19,7 +18,7 @@ extension DropdownViewController {
         struct Reminder {
             var indication: String
             var title: String
-            var ekReminder: EKReminder?
+            var reminderID: String?
         }
         
         var lastReminder: Reminder?
@@ -31,6 +30,13 @@ extension DropdownViewController {
         var numberOfRows: Int {
             // If there is no last reminder, return 1:
             lastReminder != nil ? 2 : 1
+        }
+        
+        func invalidateIntrinsicContentSize() {
+            currentReminderCell.textField.invalidateIntrinsicContentSize()
+            currentReminderCell.contentStackView.invalidateIntrinsicContentSize()
+            lastReminderCell.textField.invalidateIntrinsicContentSize()
+            lastReminderCell.contentStackView.invalidateIntrinsicContentSize()
         }
         
         func getRowType(at row: Int) -> Row {

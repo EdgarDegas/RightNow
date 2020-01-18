@@ -16,6 +16,7 @@ final class ReminderCreator {
     
     enum Error: Swift.Error {
         case underlying(error: Swift.Error)
+        case reminderNotExist
     }
     
     typealias ReminderCreationResult = Result<EKReminder, Error>
@@ -32,7 +33,7 @@ final class ReminderCreator {
     }
     
     /// Create a reminder with the given name.
-    /// 
+    ///
     /// The completion is guaranteed to be invoked on the main queue.
     func createReminder(named name: String, completion: ReminderCreationCompletion? = nil) {
         guard name.isEmpty == false else { return }
@@ -55,6 +56,19 @@ final class ReminderCreator {
         }
         
         creation(name)
+    }
+    
+    func removeReminder(with id: String, completion: ((_ error: Error?) -> Void)? = nil) {
+        guard let reminder = eventStore.calendarItem(withIdentifier: id) as? EKReminder else {
+            completion?(.reminderNotExist)
+            return
+        }
+        do {
+            try eventStore.remove(reminder, commit: true)
+            completion?(nil)
+        } catch {
+            completion?(.underlying(error: error))
+        }
     }
 }
 

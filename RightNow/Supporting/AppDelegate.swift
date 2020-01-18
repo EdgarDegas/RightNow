@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         popover.behavior = .transient
+        popover.appearance = NSAppearance.current
         
         let button = statusItem.button
         button?.action = #selector(togglePopover(_:))
@@ -45,7 +46,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     func showPopover(sender: Any?) {
         if let button = statusItem.button {
-            popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
+            popover.contentSize = popover.contentViewController!.view.bounds.size
+            popover.show(relativeTo: button.bounds, of: button, preferredEdge: .minY)
         }
     }
     

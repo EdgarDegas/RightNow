@@ -685,11 +685,11 @@
         <scene sceneID="egY-Ww-NgW">
             <objects>
                 <viewController storyboardIdentifier="View Controller" id="HCS-vY-cJ6" customClass="DropdownViewController" customModule="RightNow" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" focusRingType="none" misplaced="YES" id="pzY-5K-2DL">
+                    <view key="view" focusRingType="none" id="pzY-5K-2DL">
                         <rect key="frame" x="0.0" y="0.0" width="400" height="60"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="0.0" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxi-Ku-SrK" customClass="StackView" customModule="RightNow" customModuleProvider="target">
+                            <stackView distribution="equalSpacing" orientation="vertical" alignment="leading" spacing="16" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="1000" verticalHuggingPriority="1000" verticalCompressionResistancePriority="1000" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oxi-Ku-SrK" customClass="StackView" customModule="RightNow" customModuleProvider="target">
                                 <rect key="frame" x="20" y="16" width="360" height="0.0"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="360" id="4dp-IN-Bfx"/>

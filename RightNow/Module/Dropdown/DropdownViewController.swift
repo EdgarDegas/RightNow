@@ -46,22 +46,113 @@ final class DropdownViewController: NSViewController {
         view.layer?.backgroundColor = NSColor.white.cgColor
         renderViewModel()
     }
+    
+    override func viewDidAppear() {
+        super.viewDidAppear()
+        focusOnCurrentReminderInputView()
+    }
 }
+
 
 private extension DropdownViewController {
     func updatePopoverContentSize() {
-        NSApp.popover.contentSize = view.bounds.size
+        viewModel.invalidateIntrinsicContentSize()
+        contentStackView.invalidateIntrinsicContentSize()
+        preferredContentSize = view.bounds.size
     }
     
     func renderViewModel() {
         contentStackView.reloadData()
-        updatePopoverContentSize()
+        DispatchQueue.main.asyncAfter(deadline: .now() + .leastNormalMagnitude) {
+            // Async after a small duration to ensuare view layout.
+            self.updatePopoverContentSize()
+            self.focusOnCurrentReminderInputView()
+        }
+    }
+    
+    func focusOnCurrentReminderInputView() {
+        guard
+            let textField = viewModel.currentReminderCell.textField,
+            textField.window?.firstResponder != textField.currentEditor()
+        else {
+            return
+        }
+        textField.window?.makeFirstResponder(textField)
+        let length = textField.stringValue.count
+        textField.currentEditor()?.selectedRange = .init(location: length, length: 0)
     }
     
     func customInit() {
         // Nothing.
     }
+    
+    func handleEnterOfCurrentReminderTextField(_ textField: NSTextField) {
+        let reminderName = textField.stringValue
+        viewModel.currentReminderCell.viewModel.showIndicator = true
+        reminderCreator.createReminder(
+            named: reminderName
+        ) { [unowned self, weak textField] result in
+            defer {
+                self.viewModel.currentReminderCell.viewModel.showIndicator = false
+            }
+
+            guard let reminder = try? result.get() else {
+                // TODO: Handle creation failure
+                return
+            }
+            
+            var lastReminder = ViewModel.createLastReminder()
+            lastReminder.title = reminderName
+            lastReminder.reminderID = reminder.calendarItemIdentifier
+            self.viewModel.lastReminder = lastReminder
+            self.viewModel.currentReminder = ViewModel.createCurrentReminder()
+            self.renderViewModel()
+        }
+    }
+    
+    func handleEnterOfLastReminderTextField(_ textField: NSTextField) {
+        let reminderName = textField.stringValue
+        viewModel.lastReminderCell.viewModel.showIndicator = true
+        guard
+            let lastReminder = viewModel.lastReminder,
+            let id = lastReminder.reminderID
+        else {
+            self.viewModel.lastReminderCell.viewModel.showIndicator = false
+            return
+        }
+        reminderCreator.removeReminder(with: id) { [weak self, weak textField] error in
+            guard let self = self else { return }
+            guard error == nil else {
+                switch error {
+                case .reminderNotExist:
+                    // TODO: Tell the user that this reminder is missing
+                    self.viewModel.lastReminder = nil
+                    self.viewModel.lastReminderCell.viewModel.showIndicator = false
+                    self.renderViewModel()
+                default:
+                    break
+                }
+                return
+            }
+            self.reminderCreator.createReminder(named: reminderName) { result in
+                defer {
+                    self.viewModel.lastReminderCell.viewModel.showIndicator = false
+                }
+                guard let created = try? result.get() else {
+                    // TODO: Failed to recreate
+                    return
+                }
+                var newLastReminder = lastReminder
+                newLastReminder.title = reminderName
+                newLastReminder.reminderID = created.calendarItemIdentifier
+                self.viewModel.lastReminder = newLastReminder
+                self.renderViewModel()
+                self.focusOnCurrentReminderInputView()
+            }
+        }
+    }
 }
+
 
 extension DropdownViewController: StackViewDataSource {
     func numberOfArrangedSubviews(in stackView: StackView) -> Int {
@@ -75,31 +166,18 @@ extension DropdownViewController: StackViewDataSource {
     }
 }
 
+
 extension DropdownViewController: ReminderInputViewDelegate {
     func reminderInputView(
         _ reminderInputView: ReminderInputView,
         textFieldDidEnter textField: AutoExpandingTextField
     ) {
-        let reminderName = textField.stringValue
-        textField.isEnabled = false
-        reminderCreator.createReminder(
-            named: reminderName
-        ) { [unowned self, weak textField] result in
-            defer {
-                textField?.isEnabled = true
-            }
-
-            guard let reminder = try? result.get() else {
-                // TODO: Handle creation failure
-                return
-            }
-            
-            var lastReminder = ViewModel.createLastReminder()
-            lastReminder.title = reminderName
-            lastReminder.ekReminder = reminder
-            self.viewModel.lastReminder = lastReminder
-            self.viewModel.currentReminder = ViewModel.createCurrentReminder()
-            self.renderViewModel()
+        if reminderInputView == viewModel.currentReminderCell {
+            handleEnterOfCurrentReminderTextField(textField)
+        } else if reminderInputView == viewModel.lastReminderCell {
+            handleEnterOfLastReminderTextField(textField)
+        } else {
+            fatalError("The enter event is sent from an unknown input view.")
         }
     }
     
@@ -107,7 +185,6 @@ extension DropdownViewController: ReminderInputViewDelegate {
         _ reminderInputView: ReminderInputView,
         textFieldTextDidChange textField: AutoExpandingTextField
     ) {
-        contentStackView.invalidateIntrinsicContentSize()
         updatePopoverContentSize()
     }
 }
