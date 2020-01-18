@@ -25,6 +25,7 @@
 		B316C7A123D2EEE100D06194 /* ReminderCreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A023D2EEE100D06194 /* ReminderCreator.swift */; };
 		B316C7A323D2F01300D06194 /* Set+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A223D2F01300D06194 /* Set+Extension.swift */; };
 		B316C7A523D3393500D06194 /* InstrinsicContentSizeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */; };
+		B316C7A723D349E000D06194 /* NSTextField+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A623D349E000D06194 /* NSTextField+Extension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -70,6 +71,7 @@
 		B316C7A023D2EEE100D06194 /* ReminderCreator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderCreator.swift; sourceTree = "<group>"; };
 		B316C7A223D2F01300D06194 /* Set+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Set+Extension.swift"; sourceTree = "<group>"; };
 		B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstrinsicContentSizeView.swift; sourceTree = "<group>"; };
+		B316C7A623D349E000D06194 /* NSTextField+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSTextField+Extension.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -157,6 +159,7 @@
 				B316C79B23D21A4D00D06194 /* WeakReference.swift */,
 				B316C7A223D2F01300D06194 /* Set+Extension.swift */,
 				B316C7A423D3393500D06194 /* InstrinsicContentSizeView.swift */,
+				B316C7A623D349E000D06194 /* NSTextField+Extension.swift */,
 			);
 			path = Foundation;
 			sourceTree = "<group>";
@@ -334,6 +337,7 @@
 				B316C79823D205B200D06194 /* NSView+Extension.swift in Sources */,
 				B316C79223D0914000D06194 /* StackView.swift in Sources */,
 				B316C79423D0AC4A00D06194 /* NSApplication+Extension.swift in Sources */,
+				B316C7A723D349E000D06194 /* NSTextField+Extension.swift in Sources */,
 				B316C79C23D21A4E00D06194 /* WeakReference.swift in Sources */,
 				B316C79623D2055200D06194 /* AutoExpandingTextField.swift in Sources */,
 			);

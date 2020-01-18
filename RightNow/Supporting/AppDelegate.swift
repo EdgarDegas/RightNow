@@ -10,9 +10,20 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-
+    
+    @IBAction func navigateToLastReminderSelected(_ sender: NSMenuItem) {
+        dropdownViewController.viewModel.lastReminderInputView.textField.beginEditing()
+    }
+    
+    @IBAction func navigateToNextReminderSelected(_ sender: NSMenuItem) {
+        dropdownViewController.viewModel.nextReminderInputView.textField.beginEditing()
+    }
+    
     let popover = NSPopover()
+    
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    
+    weak var dropdownViewController: DropdownViewController!
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
         popover.behavior = .transient
@@ -26,10 +37,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         //2.
         let identifier = "View Controller"
         //3.
-        guard let viewController = storyboard.instantiateController(withIdentifier: identifier) as? DropdownViewController else {
+        guard let dropdownViewController = storyboard.instantiateController(withIdentifier: identifier) as? DropdownViewController else {
             fatalError("Storyboard ID not set.")
         }
-        popover.contentViewController = viewController
+        popover.contentViewController = dropdownViewController
+        self.dropdownViewController = dropdownViewController
     }
 
     func applicationWillTerminate(_ aNotification: Notification) {

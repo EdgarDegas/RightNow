@@ -123,6 +123,26 @@
                                 <modifierMask key="keyEquivalentModifierMask"/>
                                 <menu key="submenu" title="Edit" id="W48-6f-4Dl">
                                     <items>
+                                        <menuItem title="Navigate" id="ufW-je-1Ew">
+                                            <modifierMask key="keyEquivalentModifierMask"/>
+                                            <menu key="submenu" title="Navigate" id="vDU-cD-hJI">
+                                                <items>
+                                                    <menuItem title="To Last Reminder" keyEquivalent="" allowsKeyEquivalentWhenHidden="YES" id="K78-ED-2Yy">
+                                                        <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="navigateToLastReminderSelected:" target="Voe-Tx-rLC" id="g9E-d4-fqD"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                    <menuItem title="To Next Reminder" keyEquivalent="" allowsKeyEquivalentWhenHidden="YES" id="1cy-wJ-o2h">
+                                                        <modifierMask key="keyEquivalentModifierMask" shift="YES" command="YES"/>
+                                                        <connections>
+                                                            <action selector="navigateToNextReminderSelected:" target="Voe-Tx-rLC" id="CqU-to-omR"/>
+                                                        </connections>
+                                                    </menuItem>
+                                                </items>
+                                            </menu>
+                                        </menuItem>
+                                        <menuItem isSeparatorItem="YES" id="Co5-WW-uAG"/>
                                         <menuItem title="Undo" keyEquivalent="z" id="dRJ-4n-Yzg">
                                             <connections>
                                                 <action selector="undo:" target="Ady-hI-5gd" id="M6e-cu-g7V"/>

@@ -49,7 +49,7 @@ final class DropdownViewController: NSViewController {
     
     override func viewDidAppear() {
         super.viewDidAppear()
-        focusOnCurrentReminderInputView()
+        focusOnNextReminderInputView()
     }
 }
 
@@ -66,34 +66,26 @@ private extension DropdownViewController {
         DispatchQueue.main.asyncAfter(deadline: .now() + .leastNormalMagnitude) {
             // Async after a small duration to ensuare view layout.
             self.updatePopoverContentSize()
-            self.focusOnCurrentReminderInputView()
+            self.focusOnNextReminderInputView()
         }
     }
     
-    func focusOnCurrentReminderInputView() {
-        guard
-            let textField = viewModel.currentReminderCell.textField,
-            textField.window?.firstResponder != textField.currentEditor()
-        else {
-            return
-        }
-        textField.window?.makeFirstResponder(textField)
-        let length = textField.stringValue.count
-        textField.currentEditor()?.selectedRange = .init(location: length, length: 0)
+    func focusOnNextReminderInputView() {
+        viewModel.nextReminderInputView.textField?.beginEditing()
     }
     
     func customInit() {
         // Nothing.
     }
     
-    func handleEnterOfCurrentReminderTextField(_ textField: NSTextField) {
+    func handleEnterOfNextReminderTextField(_ textField: NSTextField) {
         let reminderName = textField.stringValue
-        viewModel.currentReminderCell.viewModel.showIndicator = true
+        viewModel.nextReminderInputView.viewModel.showIndicator = true
         reminderCreator.createReminder(
             named: reminderName
         ) { [unowned self, weak textField] result in
             defer {
-                self.viewModel.currentReminderCell.viewModel.showIndicator = false
+                self.viewModel.nextReminderInputView.viewModel.showIndicator = false
             }
 
             guard let reminder = try? result.get() else {
@@ -105,19 +97,19 @@ private extension DropdownViewController {
             lastReminder.title = reminderName
             lastReminder.reminderID = reminder.calendarItemIdentifier
             self.viewModel.lastReminder = lastReminder
-            self.viewModel.currentReminder = ViewModel.createCurrentReminder()
+            self.viewModel.nextReminder = ViewModel.createNextReminder()
             self.renderViewModel()
         }
     }
     
     func handleEnterOfLastReminderTextField(_ textField: NSTextField) {
         let reminderName = textField.stringValue
-        viewModel.lastReminderCell.viewModel.showIndicator = true
+        viewModel.lastReminderInputView.viewModel.showIndicator = true
         guard
             let lastReminder = viewModel.lastReminder,
             let id = lastReminder.reminderID
         else {
-            self.viewModel.lastReminderCell.viewModel.showIndicator = false
+            self.viewModel.lastReminderInputView.viewModel.showIndicator = false
             return
         }
         reminderCreator.removeReminder(with: id) { [weak self, weak textField] error in
@@ -127,7 +119,7 @@ private extension DropdownViewController {
                 case .reminderNotExist:
                     // TODO: Tell the user that this reminder is missing
                     self.viewModel.lastReminder = nil
-                    self.viewModel.lastReminderCell.viewModel.showIndicator = false
+                    self.viewModel.lastReminderInputView.viewModel.showIndicator = false
                     self.renderViewModel()
                 default:
                     break
@@ -136,7 +128,7 @@ private extension DropdownViewController {
             }
             self.reminderCreator.createReminder(named: reminderName) { result in
                 defer {
-                    self.viewModel.lastReminderCell.viewModel.showIndicator = false
+                    self.viewModel.lastReminderInputView.viewModel.showIndicator = false
                 }
                 guard let created = try? result.get() else {
                     // TODO: Failed to recreate
@@ -147,7 +139,7 @@ private extension DropdownViewController {
                 newLastReminder.reminderID = created.calendarItemIdentifier
                 self.viewModel.lastReminder = newLastReminder
                 self.renderViewModel()
-                self.focusOnCurrentReminderInputView()
+                self.focusOnNextReminderInputView()
             }
         }
     }
@@ -172,9 +164,9 @@ extension DropdownViewController: ReminderInputViewDelegate {
         _ reminderInputView: ReminderInputView,
         textFieldDidEnter textField: AutoExpandingTextField
     ) {
-        if reminderInputView == viewModel.currentReminderCell {
-            handleEnterOfCurrentReminderTextField(textField)
-        } else if reminderInputView == viewModel.lastReminderCell {
+        if reminderInputView == viewModel.nextReminderInputView {
+            handleEnterOfNextReminderTextField(textField)
+        } else if reminderInputView == viewModel.lastReminderInputView {
             handleEnterOfLastReminderTextField(textField)
         } else {
             fatalError("The enter event is sent from an unknown input view.")

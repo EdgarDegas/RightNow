@@ -12,7 +12,7 @@ extension DropdownViewController {
     struct ViewModel {
         enum Row: Int {
             case last
-            case current
+            case next
         }
         
         struct Reminder {
@@ -22,10 +22,10 @@ extension DropdownViewController {
         }
         
         var lastReminder: Reminder?
-        var currentReminder: Reminder = createCurrentReminder()
+        var nextReminder: Reminder = createNextReminder()
         
-        var lastReminderCell = ReminderInputView()
-        var currentReminderCell = ReminderInputView()
+        var lastReminderInputView = ReminderInputView()
+        var nextReminderInputView = ReminderInputView()
         
         var numberOfRows: Int {
             // If there is no last reminder, return 1:
@@ -33,15 +33,15 @@ extension DropdownViewController {
         }
         
         func invalidateIntrinsicContentSize() {
-            currentReminderCell.textField.invalidateIntrinsicContentSize()
-            currentReminderCell.contentStackView.invalidateIntrinsicContentSize()
-            lastReminderCell.textField.invalidateIntrinsicContentSize()
-            lastReminderCell.contentStackView.invalidateIntrinsicContentSize()
+            nextReminderInputView.textField.invalidateIntrinsicContentSize()
+            nextReminderInputView.contentStackView.invalidateIntrinsicContentSize()
+            lastReminderInputView.textField.invalidateIntrinsicContentSize()
+            lastReminderInputView.contentStackView.invalidateIntrinsicContentSize()
         }
         
         func getRowType(at row: Int) -> Row {
             if lastReminder == nil {
-                return .current
+                return .next
             } else {
                 return Row(rawValue: row)!
             }
@@ -51,33 +51,33 @@ extension DropdownViewController {
             let rowType = getRowType(at: row)
             switch rowType {
             case .last:
-                lastReminderCell.viewModel = .init(reminder: lastReminder!)
-                return lastReminderCell
-            case .current:
-                currentReminderCell.viewModel = .init(reminder: currentReminder)
-                return currentReminderCell
+                lastReminderInputView.viewModel = .init(reminder: lastReminder!)
+                return lastReminderInputView
+            case .next:
+                nextReminderInputView.viewModel = .init(reminder: nextReminder)
+                return nextReminderInputView
             }
         }
         
         init() {
-            currentReminderCell.translatesAutoresizingMaskIntoConstraints = false
-            lastReminderCell.translatesAutoresizingMaskIntoConstraints = false
+            nextReminderInputView.translatesAutoresizingMaskIntoConstraints = false
+            lastReminderInputView.translatesAutoresizingMaskIntoConstraints = false
             if let lastReminder = lastReminder {
-                lastReminderCell.viewModel = .init(reminder: lastReminder)
+                lastReminderInputView.viewModel = .init(reminder: lastReminder)
             }
-            currentReminderCell.viewModel = .init(reminder: currentReminder)
+            nextReminderInputView.viewModel = .init(reminder: nextReminder)
         }
     }
 }
 
 
 extension DropdownViewController.ViewModel {
-    static func createCurrentReminder() -> Reminder {
+    static func createNextReminder() -> Reminder {
         .init(indication: "What to do next: ", title: "")
     }
     
     static func createLastReminder() -> Reminder {
-        .init(indication: "⌘⇧↑ to edit", title: "")
+        .init(indication: "Successfully added reminder (⌘⇧↑ to edit):", title: "")
     }
 }
 
