@@ -73,11 +73,11 @@ extension DropdownViewController {
 
 extension DropdownViewController.ViewModel {
     static func createNextReminder() -> Reminder {
-        .init(indication: "What to do next: ", title: "")
+        .init(indication: "􀈎 What to do next: ", title: "")
     }
     
     static func createLastReminder() -> Reminder {
-        .init(indication: "Successfully added reminder (⌘⇧↑ to edit):", title: "")
+        .init(indication: "􀂎 Successfully added reminder (⌘⇧↑ to edit):", title: "")
     }
 }
 

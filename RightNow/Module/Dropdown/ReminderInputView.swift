@@ -47,6 +47,7 @@ final class ReminderInputView: NSView {
         textField.backgroundColor = NSColor.textBackgroundColor
         label.textColor = NSColor.secondaryLabelColor
         indicator.appearance = NSAppearance.current
+        returnIndicationLabel.textColor = NSColor.labelColor.withAlphaComponent(0.2)
     }
     
     weak var delegate: ReminderInputViewDelegate?
@@ -60,6 +61,7 @@ final class ReminderInputView: NSView {
     weak var contentStackView: StackView!
     weak var indicator: NSProgressIndicator!
     weak var separator: NSView!
+    weak var returnIndicationLabel: NSTextField!
     
     override init(frame frameRect: NSRect) {
         super.init(frame: frameRect)
@@ -97,29 +99,16 @@ private extension ReminderInputView {
         contentStackView.setCustomSpacing(12, after: label)
         self.contentStackView = contentStackView
         
+        let returnIndicationLabel = createReturnIndicationLabel()
+        addSubview(returnIndicationLabel)
+        self.returnIndicationLabel = returnIndicationLabel
+        
         let indicator = createIndicator()
         addSubview(indicator)
         self.indicator = indicator
         
-        let trailingConstraint = NSLayoutConstraint(
-            item: separator,
-            attribute: .trailing,
-            relatedBy: .equal,
-            toItem: indicator,
-            attribute: .trailing,
-            multiplier: 1,
-            constant: 0)
-        let baselineConstraint = NSLayoutConstraint(
-            item: textField,
-            attribute: .lastBaseline,
-            relatedBy: .equal,
-            toItem: indicator,
-            attribute: .lastBaseline,
-            multiplier: 1,
-            constant: 0)
-        addConstraints([
-            trailingConstraint,
-            baselineConstraint])
+        alignViewWithTextField(returnIndicationLabel)
+        alignViewWithTextField(indicator)
     }
     
     func createTextField() -> AutoExpandingTextField {
@@ -160,6 +149,12 @@ private extension ReminderInputView {
         return separator
     }
     
+    func createReturnIndicationLabel() -> NSTextField {
+        let label = NSTextField(labelWithString: "􀅇")
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }
+    
     func createIndicator() -> NSProgressIndicator {
         let indicator = NSProgressIndicator()
         indicator.layer?.backgroundColor = NSColor.clear.cgColor
@@ -197,6 +192,31 @@ private extension ReminderInputView {
         return contentStackView
     }
     
+    func alignViewWithTextField(_ view: NSView) {
+        assert(
+            separator != nil && textField != nil,
+            "Constraint must not be applied before subviews are added.")
+        let trailingConstraint = NSLayoutConstraint(
+            item: separator!,
+            attribute: .trailing,
+            relatedBy: .equal,
+            toItem: view,
+            attribute: .trailing,
+            multiplier: 1,
+            constant: 0)
+        let baselineConstraint = NSLayoutConstraint(
+            item: textField!,
+            attribute: .lastBaseline,
+            relatedBy: .equal,
+            toItem: view,
+            attribute: .lastBaseline,
+            multiplier: 1,
+            constant: 0)
+        addConstraints([
+            trailingConstraint,
+            baselineConstraint])
+    }
+    
     func renderViewModel() {
         if textField.stringValue != viewModel.textFieldText {
             textField.stringValue = viewModel.textFieldText
@@ -211,6 +231,7 @@ private extension ReminderInputView {
         }
         
         textField.isEnabled = !viewModel.showIndicator
+        returnIndicationLabel.isHidden = viewModel.showIndicator
         if viewModel.showIndicator {
             indicator.startAnimation(nil)
         } else {
