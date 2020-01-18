@@ -11,9 +11,9 @@ import EventKit
 
 final class DropdownViewController: NSViewController {
     
-    var viewModel = ViewModel()
+    private let reminderCreator = ReminderCreator()
     
-    private var accessRequested: Bool = false
+    var viewModel = ViewModel()
     
     @IBOutlet var settingMenu: NSMenu!
     
@@ -39,10 +39,6 @@ final class DropdownViewController: NSViewController {
         super.init(coder: coder)
         customInit()
     }
-    
-    private lazy var eventStore: EKEventStore = {
-        .init()
-    }()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -62,54 +58,8 @@ private extension DropdownViewController {
         updatePopoverContentSize()
     }
     
-    func creatingEvent(named name: String, completion: (() -> Void)? = nil) {
-        guard name.isEmpty == false else { return }
-        let creation: (String) -> Void = { [weak self] text in
-            guard let self = self else { return }
-            self.performCreationOfEvent(named: text) {
-                self.viewModel.lastReminder = ViewModel.createLastReminder()
-                self.viewModel.currentReminder = ViewModel.createCurrentReminder()
-                self.renderViewModel()
-                completion?()
-            }
-        }
-        
-        guard accessRequested else {
-            eventStore.requestAccess(to: .reminder) { [weak self] succeeded, error in
-                guard let self = self else { return }
-                self.accessRequested = true
-                DispatchQueue.main.async {
-                    creation(name)
-                }
-            }
-            return
-        }
-        
-        creation(name)
-    }
-    
     func customInit() {
-        let status = EKEventStore.authorizationStatus(for: .reminder)
-        switch status {
-        case .authorized:
-            accessRequested = true
-        default:
-            break
-        }
-    }
-    
-    func performCreationOfEvent(named name: String, completion: (() -> Void)? = nil) {
-        DispatchQueue.global(qos: .userInitiated).async {
-            let reminder = EKReminder(eventStore: self.eventStore)
-            reminder.title = name
-            let calendar = self.eventStore.defaultCalendarForNewReminders()
-            reminder.calendar = calendar
-            reminder.dueDateComponents = Calendar.current.dateComponents(.yearToDay, from: .init())
-            //            try? self.eventStore.save(reminder, commit: true)
-            DispatchQueue.main.async {
-                completion?()
-            }
-        }
+        // Nothing.
     }
 }
 
@@ -131,8 +81,13 @@ extension DropdownViewController: ReminderInputViewDelegate {
         textFieldDidEnter textField: AutoExpandingTextField
     ) {
         textField.isEnabled = false
-        creatingEvent(named: textField.stringValue) { [weak textField] in
+        reminderCreator.createReminder(
+            named: textField.stringValue
+        ) { [unowned self, weak textField] in
             textField?.isEnabled = true
+            self.viewModel.lastReminder = ViewModel.createLastReminder()
+            self.viewModel.currentReminder = ViewModel.createCurrentReminder()
+            self.renderViewModel()
         }
     }
     
@@ -142,16 +97,5 @@ extension DropdownViewController: ReminderInputViewDelegate {
     ) {
         contentStackView.invalidateIntrinsicContentSize()
         updatePopoverContentSize()
-    }
-}
-
-
-private extension Set where Element == Calendar.Component {
-    static var yearToDay: Self {
-        [.year, .month, .day]
-    }
-    
-    static var yearToSecond: Self {
-        [.year, .month, .day, .hour, .minute, .second]
     }
 }
