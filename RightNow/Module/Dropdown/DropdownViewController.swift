@@ -11,6 +11,8 @@ import EventKit
 
 final class DropdownViewController: ViewController {
     
+    private var createdFirstReminder: Bool = false
+    
     private let reminderCreator = ReminderCreator()
     
     var viewModel = ViewModel()
@@ -48,14 +50,41 @@ final class DropdownViewController: ViewController {
 
 
 private extension DropdownViewController {
-    func updatePopoverContentSize() {
+    
+    func updatePopoverContentSize(fadeInNextReminder: Bool = false) {
         viewModel.invalidateIntrinsicContentSize()
         contentStackView.invalidateIntrinsicContentSize()
-        preferredContentSize = view.bounds.size
+        
+        if fadeInNextReminder {
+            let endPosition = viewModel.nextReminderInputView.layer!.position
+            viewModel.nextReminderInputView.layer?.position.y += 60
+            let positionAnimation = CASpringAnimation(keyPath: #keyPath(CALayer.position))
+            positionAnimation.toValue = endPosition
+            positionAnimation.damping = 10
+            positionAnimation.stiffness = 100
+            positionAnimation.duration = positionAnimation.settlingDuration
+            positionAnimation.isRemovedOnCompletion = false
+            positionAnimation.fillMode = .forwards
+            viewModel.nextReminderInputView.layer?.add(positionAnimation, forKey: nil)
+            
+            viewModel.nextReminderInputView.layer?.opacity = 0
+            let alphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
+            alphaAnimation.toValue = Float(1)
+            alphaAnimation.beginTime = CACurrentMediaTime() + positionAnimation.settlingDuration / 4
+            alphaAnimation.duration = 0.3
+            alphaAnimation.timingFunction = .init(name: .easeOut)
+            alphaAnimation.isRemovedOnCompletion = false
+            alphaAnimation.fillMode = .forwards
+            viewModel.nextReminderInputView.layer?.add(alphaAnimation, forKey: nil)
+        }
+        
     }
     
     func renderViewModel() {
         contentStackView.reloadData()
+        let flag = createdFirstReminder
+        createdFirstReminder = false
+        self.updatePopoverContentSize(fadeInNextReminder: flag)
         DispatchQueue.main.asyncAfter(deadline: .now() + .leastNormalMagnitude) {
             // Async after a small duration to ensuare view layout.
             self.updatePopoverContentSize()
@@ -70,6 +99,9 @@ private extension DropdownViewController {
     func handleEnterOfNextReminderTextField(_ textField: NSTextField) {
         let reminderName = textField.stringValue
         viewModel.nextReminderInputView.viewModel.showIndicator = true
+        if viewModel.lastReminder == nil {
+            createdFirstReminder = true
+        }
         reminderCreator.createReminder(
             named: reminderName
         ) { [unowned self, weak textField] result in

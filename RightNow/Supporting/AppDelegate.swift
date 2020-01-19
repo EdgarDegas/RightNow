@@ -31,7 +31,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     
     let popover = NSPopover()
     
-    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
     
     weak var dropdownViewController: DropdownViewController!
 
@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         
         let button = statusItem.button
         button?.action = #selector(togglePopover(_:))
-        button?.title = "Right Now"
+        button?.image = NSImage(named: "menu_bar_icon")
         
         let storyboard = NSStoryboard(name: "Main", bundle: nil)
         let identifier = "View Controller"
