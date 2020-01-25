@@ -11,9 +11,12 @@ import EventKit
 
 final class DropdownViewController: ViewController {
     
+    /// Tell if the reminder just created is the first one since app was launched.
     private var createdFirstReminder: Bool = false
     
     private let reminderCreator = ReminderCreator()
+    
+    private let uiHelper = DropdownUIHelper()
     
     var viewModel = ViewModel()
     
@@ -22,10 +25,7 @@ final class DropdownViewController: ViewController {
     @IBOutlet weak var contentStackView: StackView!
     
     @IBAction func settingButtonTapped(_ sender: NSButton) {
-        var anchor = sender.bounds.origin
-        anchor.x += 20
-        anchor.y += sender.bounds.height - 8
-        settingMenu.popUp(positioning: nil, at: anchor, in: sender)
+        uiHelper.settingButtonTapped(sender, associatedMenu: settingMenu)
     }
     
     @IBAction func quitItemSelected(_ sender: NSMenuItem) {
@@ -56,28 +56,8 @@ private extension DropdownViewController {
         contentStackView.invalidateIntrinsicContentSize()
         
         if fadeInNextReminder {
-            let endPosition = viewModel.nextReminderInputView.layer!.position
-            viewModel.nextReminderInputView.layer?.position.y += 60
-            let positionAnimation = CASpringAnimation(keyPath: #keyPath(CALayer.position))
-            positionAnimation.toValue = endPosition
-            positionAnimation.damping = 10
-            positionAnimation.stiffness = 100
-            positionAnimation.duration = positionAnimation.settlingDuration
-            positionAnimation.isRemovedOnCompletion = false
-            positionAnimation.fillMode = .forwards
-            viewModel.nextReminderInputView.layer?.add(positionAnimation, forKey: nil)
-            
-            viewModel.nextReminderInputView.layer?.opacity = 0
-            let alphaAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.opacity))
-            alphaAnimation.toValue = Float(1)
-            alphaAnimation.beginTime = CACurrentMediaTime() + positionAnimation.settlingDuration / 4
-            alphaAnimation.duration = 0.3
-            alphaAnimation.timingFunction = .init(name: .easeOut)
-            alphaAnimation.isRemovedOnCompletion = false
-            alphaAnimation.fillMode = .forwards
-            viewModel.nextReminderInputView.layer?.add(alphaAnimation, forKey: nil)
+            uiHelper.animateAppearingOfNextReminderView(viewModel.nextReminderInputView)
         }
-        
     }
     
     func renderViewModel() {

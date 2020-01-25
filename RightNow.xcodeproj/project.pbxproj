@@ -29,6 +29,7 @@
 		B316C7A923D35A2D00D06194 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7A823D35A2D00D06194 /* ViewController.swift */; };
 		B316C7AB23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7AA23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift */; };
 		B316C7AD23D35B9400D06194 /* Typealias.swift in Sources */ = {isa = PBXBuildFile; fileRef = B316C7AC23D35B9400D06194 /* Typealias.swift */; };
+		B3F10E4423DC8B97006BC91F /* DropdownUIHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F10E4323DC8B97006BC91F /* DropdownUIHelper.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		B316C7A823D35A2D00D06194 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		B316C7AA23D35A4D00D06194 /* AppearanceUpdateSubscriberProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceUpdateSubscriberProtocol.swift; sourceTree = "<group>"; };
 		B316C7AC23D35B9400D06194 /* Typealias.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Typealias.swift; sourceTree = "<group>"; };
+		B3F10E4323DC8B97006BC91F /* DropdownUIHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DropdownUIHelper.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -196,6 +198,7 @@
 			isa = PBXGroup;
 			children = (
 				B316C75E23D0346400D06194 /* DropdownViewController.swift */,
+				B3F10E4323DC8B97006BC91F /* DropdownUIHelper.swift */,
 				B316C78D23D082B100D06194 /* ViewModel.swift */,
 				B316C78B23D06B0900D06194 /* ReminderInputView.swift */,
 				B316C76223D0346600D06194 /* Main.storyboard */,
@@ -340,6 +343,7 @@
 				B316C7A323D2F01300D06194 /* Set+Extension.swift in Sources */,
 				B316C7A123D2EEE100D06194 /* ReminderCreator.swift in Sources */,
 				B316C75D23D0346400D06194 /* AppDelegate.swift in Sources */,
+				B3F10E4423DC8B97006BC91F /* DropdownUIHelper.swift in Sources */,
 				B316C79A23D205D100D06194 /* NSFont+Extension.swift in Sources */,
 				B316C78C23D06B0900D06194 /* ReminderInputView.swift in Sources */,
 				B316C7A523D3393500D06194 /* InstrinsicContentSizeView.swift in Sources */,
