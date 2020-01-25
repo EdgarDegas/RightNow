@@ -51,6 +51,16 @@ final class DropdownViewController: ViewController {
 
 private extension DropdownViewController {
     
+    func isReminderNameValid(_ reminderName: String) -> Bool {
+        guard
+            reminderName.isEmpty == false,
+            reminderName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == false
+        else {
+            return false
+        }
+        return true
+    }
+    
     func updatePopoverContentSize(fadeInNextReminder: Bool = false) {
         viewModel.invalidateIntrinsicContentSize()
         contentStackView.invalidateIntrinsicContentSize()
@@ -78,6 +88,7 @@ private extension DropdownViewController {
     
     func handleEnterOfNextReminderTextField(_ textField: NSTextField) {
         let reminderName = textField.stringValue
+        guard isReminderNameValid(reminderName) else { return }
         viewModel.nextReminderInputView.viewModel.showIndicator = true
         if viewModel.lastReminder == nil {
             createdFirstReminder = true
@@ -105,11 +116,13 @@ private extension DropdownViewController {
     
     func handleEnterOfLastReminderTextField(_ textField: NSTextField) {
         let reminderName = textField.stringValue
+        guard isReminderNameValid(reminderName) else { return }
         viewModel.lastReminderInputView.viewModel.showIndicator = true
         guard
             let lastReminder = viewModel.lastReminder,
             let id = lastReminder.reminderID
         else {
+            // TODO: Tell the user that an internal error happened
             self.viewModel.lastReminderInputView.viewModel.showIndicator = false
             return
         }
